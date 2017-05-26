@@ -15,6 +15,7 @@ import tvregex as tvr
 class TestIntegration(unittest.TestCase):
 
     def test_integration_silent(self):
+        # TODO: Enter raw filenames
         raw_filenames = [
             "",  # Daily Show
             "",  # @midnight
@@ -22,6 +23,7 @@ class TestIntegration(unittest.TestCase):
             "",  # Something else
         ]
         silent = True
+        # TODO: Enter matching correct filenames
         correct_filenames = [
             "",  # Daily Show
             "",  # @midnight

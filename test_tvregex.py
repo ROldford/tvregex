@@ -21,7 +21,12 @@ class TestIntegration(unittest.TestCase):
             "The.Daily.Show.2017.03.13.Lee.Daniels.720p.CC.WEBRip.AAC2.0.x264-BTW.mkv",  # Daily Show
             "at.midnight.2017.02.14.hdtv.x264-crooks.mkv"  # @midnight
         ]
-        silent = True
+        shownames = {
+            "lipsyncbattle": "Lip Sync Battle",
+            "archer2009": "Archer (2009)",
+            "thedailyshow": "The Daily Show",
+            "atmidnight": "@midnight"
+        }
         correct_filenames = [
             "Lip Sync Battle - [03x19].mkv",  # Lip Sync Battle
             "Archer (2009) - [08x08].mkv",  # Archer
@@ -31,7 +36,7 @@ class TestIntegration(unittest.TestCase):
         for i in range(len(raw_filenames)):
             raw_filename = raw_filenames[i]
             correct_filename = correct_filenames[i]
-            result = tvr.tvregex(raw_filename, silent)
+            result = tvr.tvregex(raw_filename, shownames)
             self.assertEqual(correct_filename, result)
 
 

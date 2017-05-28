@@ -18,7 +18,8 @@ class TestIntegration(unittest.TestCase):
         raw_filenames = [
             "lip.sync.battle.s03e19.hdtv.x264-w4f.mkv",  # Lip Sync Battle
             "Archer.2009.S08E08.REPACK.HDTV.x264-SVA.mkv",  # Archer
-            "The.Daily.Show.2017.03.13.Lee.Daniels.720p.CC.WEBRip.AAC2.0.x264-BTW.mkv",  # Daily Show
+            "The.Daily.Show.2017.03.13.Lee.Daniels." +
+            "720p.CC.WEBRip.AAC2.0.x264-BTW.mkv",  # Daily Show
             "at.midnight.2017.02.14.hdtv.x264-crooks.mkv"  # @midnight
         ]
         shownames = {

@@ -1,7 +1,7 @@
 import re
 
 
-def fix_episode(episode):
+def fix_episode_seasonal(episode):
     return_value = episode
     pattern_string = r".??(\d{1,2}).??(\d{1,2})"
     pattern = re.compile(pattern_string, flags=re.IGNORECASE)
@@ -13,6 +13,10 @@ def fix_episode(episode):
     else:
         raise ValueError
     return return_value
+
+
+def fix_episode(episode):
+    return fix_episode_seasonal(episode)
 
 
 def fix_title(showname, shownames_dict):

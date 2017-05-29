@@ -12,9 +12,36 @@ import tvregex as tvr
 # Program renames file with show name and episode number
 # -> Can do date based if needed (i.e. Daily Show)
 
+class TestFixTitle(unittest.TestCase):
+
+    def test_correctly_fixes_title(self):
+        raw_shownames = [
+            "lip.sync.battle",  # Lip Sync Battle
+            "Archer.2009"  # Archer
+        ]
+        shownames_dict = {
+            "lipsyncbattle": "Lip Sync Battle",
+            "archer2009": "Archer (2009)"
+        }
+        correct_shownames = [
+            "Lip Sync Battle",  # Lip Sync Battle
+            "Archer (2009)"  # Archer
+        ]
+        for i in range(len(raw_shownames)):
+            raw_showname = raw_shownames[i]
+            correct_showname = correct_shownames[i]
+            result = tvr.fix_title(raw_showname, shownames_dict)
+            self.assertEqual(correct_showname, result)
+
+
+    def test_returns_exception_on_unknown_title(self):
+        pass
+
+
 class TestIntegration(unittest.TestCase):
 
     def test_integration_silent(self):
+        # TODO: Change test method name, remove "silent"
         raw_filenames = [
             "lip.sync.battle.s03e19.hdtv.x264-w4f.mkv",  # Lip Sync Battle
             "Archer.2009.S08E08.REPACK.HDTV.x264-SVA.mkv",  # Archer

@@ -12,20 +12,50 @@ import tvregex as tvr
 # Program renames file with show name and episode number
 # -> Can do date based if needed (i.e. Daily Show)
 
-class TestFixEpisode(unittest.TestCase):
+class TestFixEpisodeSeasonal(unittest.TestCase):
 
-    def test_correctly_fixes_episode(self):
+    def test_correctly_fixes_episode_seasonal(self):
         raw_episodes = ["s03e19", "S08E08"]
         correct_episodes = ["[03x19]", "[08x08]"]
         for i in range(len(raw_episodes)):
             raw_episode = raw_episodes[i]
             correct_episode = correct_episodes[i]
-            result = tvr.fix_episode(raw_episode)
+            result = tvr.fix_episode_seasonal(raw_episode)
             self.assertEqual(correct_episode, result)
 
     def test_returns_exception_on_bad_episode(self):
         bad_episode = "S??E??"
-        self.assertRaises(ValueError, tvr.fix_episode, bad_episode)
+        self.assertRaises(ValueError, tvr.fix_episode_seasonal, bad_episode)
+
+
+class TestFixEpisodeDaily(unittest.TestCase):
+
+    def test_correctly_fixes_episode_daily(self):
+        raw_episodes = ["2017.03.13", "2017.02.14"]
+        correct_episodes = ["[2017-03-13]", "[2017-02-14]"]
+        for i in range(len(raw_episodes)):
+            raw_episode = raw_episodes[i]
+            correct_episode = correct_episodes[i]
+            result = tvr.fix_episode_daily(raw_episode)
+            self.assertEqual(correct_episode, result)
+
+    def test_returns_exception_on_bad_episode(self):
+        pass
+
+
+class TestFixEpisode(unittest.TestCase):
+
+    def test_correctly_fixes_mixed_episodes(self):
+        raw_episodes = ["s03e19", "S08E08", "2017.03.13", "2017.02.14"]
+        correct_episodes = [
+            "[03x19]", "[08x08]",
+            "[2017-03-13]", "[2017-02-14]"
+        ]
+        for i in range(len(raw_episodes)):
+            raw_episode = raw_episodes[i]
+            correct_episode = correct_episodes[i]
+            result = tvr.fix_episode(raw_episode)
+            self.assertEqual(correct_episode, result)
 
 
 class TestFixTitle(unittest.TestCase):

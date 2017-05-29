@@ -33,9 +33,18 @@ class TestFixTitle(unittest.TestCase):
             result = tvr.fix_title(raw_showname, shownames_dict)
             self.assertEqual(correct_showname, result)
 
-
     def test_returns_exception_on_unknown_title(self):
-        pass
+        bad_showname = "Better.Call.Saul"
+        shownames_dict = {
+            "lipsyncbattle": "Lip Sync Battle",
+            "archer2009": "Archer (2009)"
+        }
+        self.assertRaises(
+            KeyError,
+            tvr.fix_title,
+            bad_showname,
+            shownames_dict
+        )
 
 
 class TestIntegration(unittest.TestCase):

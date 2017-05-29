@@ -40,7 +40,8 @@ class TestFixEpisodeDaily(unittest.TestCase):
             self.assertEqual(correct_episode, result)
 
     def test_returns_exception_on_bad_episode(self):
-        pass
+        bad_episode = "????.??.??"
+        self.assertRaises(ValueError, tvr.fix_episode_seasonal, bad_episode)
 
 
 class TestFixEpisode(unittest.TestCase):
@@ -56,6 +57,11 @@ class TestFixEpisode(unittest.TestCase):
             correct_episode = correct_episodes[i]
             result = tvr.fix_episode(raw_episode)
             self.assertEqual(correct_episode, result)
+
+    def test_returns_exception_on_bad_episode(self):
+        bad_episodes = ["S??E??", "????.??.??"]
+        for bad_episode in bad_episodes:
+            self.assertRaises(ValueError, tvr.fix_episode, bad_episode)
 
 
 class TestFixTitle(unittest.TestCase):

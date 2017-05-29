@@ -1,11 +1,7 @@
 import re
 
 
-def fix_episode_seasonal(episode):
-    return_value = episode
-    pattern_string = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
-    pattern = re.compile(pattern_string, flags=re.IGNORECASE)
-    match = pattern.search(episode)
+def fix_episode_seasonal(match):
     if match:
         season_num, episode_num = match.groups()
         season_num = season_num.zfill(2)
@@ -15,11 +11,7 @@ def fix_episode_seasonal(episode):
     return return_value
 
 
-def fix_episode_daily(episode):
-    return_value = episode
-    pattern_string = r".*?(\d{4}).+?(\d{2}).+?(\d{2}).*?$"
-    pattern = re.compile(pattern_string)
-    match = pattern.search(episode)
+def fix_episode_daily(match):
     if match:
         year, month, day = match.groups()
         month = month.zfill(2)
@@ -39,9 +31,11 @@ def fix_episode(episode):
     pattern_daily = re.compile(pattern_string_daily)
     match_daily = pattern_daily.search(return_value)
     if match_seasonal:
-        return_value = fix_episode_seasonal(return_value)
+        return_value = fix_episode_seasonal(match_seasonal)
     elif match_daily:
-        return_value = fix_episode_daily(return_value)
+        return_value = fix_episode_daily(match_daily)
+    else:
+        raise ValueError
     return return_value
 
 

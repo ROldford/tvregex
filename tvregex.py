@@ -6,9 +6,12 @@ def fix_episode(episode):
     pattern_string = r".??(\d{1,2}).??(\d{1,2})"
     pattern = re.compile(pattern_string, flags=re.IGNORECASE)
     match = pattern.search(episode)
-    season_num, episode_num = match.groups()
-    season_num = season_num.zfill(2)
-    return_value = "[{}x{}]".format(season_num, episode_num)
+    if match:
+        season_num, episode_num = match.groups()
+        season_num = season_num.zfill(2)
+        return_value = "[{}x{}]".format(season_num, episode_num)
+    else:
+        raise ValueError
     return return_value
 
 

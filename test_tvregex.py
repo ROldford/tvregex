@@ -23,6 +23,10 @@ class TestFixEpisode(unittest.TestCase):
             result = tvr.fix_episode(raw_episode)
             self.assertEqual(correct_episode, result)
 
+    def test_returns_exception_on_bad_episode(self):
+        bad_episode = "S??E??"
+        self.assertRaises(ValueError, tvr.fix_episode, bad_episode)
+
 
 class TestFixTitle(unittest.TestCase):
 

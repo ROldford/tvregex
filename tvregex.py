@@ -31,7 +31,7 @@ def tvregex(filename, shownames_dict):
     showname, episode, extension = match.groups()
     showname = fix_title(showname, shownames_dict)
     episode = fix_episode(episode)
-    return_value = showname
+    return_value = "{} - {}.{}".format(showname, episode, extension)
     return return_value
 
 

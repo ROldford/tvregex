@@ -15,6 +15,21 @@ def fix_episode_seasonal(episode):
     return return_value
 
 
+def fix_episode_daily(episode):
+    return_value = episode
+    pattern_string = r".*?(\d{4}).+?(\d{2}).+?(\d{2}).*?$"
+    pattern = re.compile(pattern_string)
+    match = pattern.search(episode)
+    if match:
+        year, month, day = match.groups()
+        month = month.zfill(2)
+        day = day.zfill(2)
+        return_value = "[{}-{}-{}]".format(year, month, day)
+    else:
+        raise ValueError
+    return return_value
+
+
 def fix_episode(episode):
     return fix_episode_seasonal(episode)
 

@@ -1,6 +1,17 @@
 import re
 
 
+def fix_episode(episode):
+    return_value = episode
+    pattern_string = r".??(\d{1,2}).??(\d{1,2})"
+    pattern = re.compile(pattern_string, flags=re.IGNORECASE)
+    match = pattern.search(episode)
+    season_num, episode_num = match.groups()
+    season_num = season_num.zfill(2)
+    return_value = "[{}x{}]".format(season_num, episode_num)
+    return return_value
+
+
 def fix_title(showname, shownames_dict):
     return_value = showname
     return_value = re.sub(r'\W+', '', return_value)

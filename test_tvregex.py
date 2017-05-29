@@ -12,6 +12,18 @@ import tvregex as tvr
 # Program renames file with show name and episode number
 # -> Can do date based if needed (i.e. Daily Show)
 
+class TestFixEpisode(unittest.TestCase):
+
+    def test_correctly_fixes_episode(self):
+        raw_episodes = ["s03e19", "S08E08"]
+        correct_episodes = ["[03x19]", "[08x08]"]
+        for i in range(len(raw_episodes)):
+            raw_episode = raw_episodes[i]
+            correct_episode = correct_episodes[i]
+            result = tvr.fix_episode(raw_episode)
+            self.assertEqual(correct_episode, result)
+
+
 class TestFixTitle(unittest.TestCase):
 
     def test_correctly_fixes_title(self):

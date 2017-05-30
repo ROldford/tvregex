@@ -58,21 +58,21 @@ def tvregex(filename, shownames_dict):
 
 
 def main():
-    # Set up arguments
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "file",
         help="Path to the file you want to rename"
     )
-    # Parse arguments
     program_args = parser.parse_args()
     filepath = program_args.file
     if os.path.isfile(filepath):
-        new_file_name = tvregex(filepath, SHOWNAMES_DICT)
-        print(new_file_name)
+        folder = os.path.dirname(filepath)
+        old_filename = os.path.basename(filepath)
+        new_filename = tvregex(old_filename, SHOWNAMES_DICT)
+        new_filepath = os.path.join(folder, new_filename)
+        print(new_filepath)
     else:
         print("not a file")
-    # Call tvregex
     pass
 
 

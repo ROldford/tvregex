@@ -70,7 +70,7 @@ def main():
         old_filename = os.path.basename(filepath)
         new_filename = tvregex(old_filename, SHOWNAMES_DICT)
         new_filepath = os.path.join(folder, new_filename)
-        print(new_filepath)
+        os.rename(filepath, new_filepath)
     else:
         print("not a file")
     pass

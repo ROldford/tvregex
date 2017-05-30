@@ -1,4 +1,14 @@
 import re
+import argparse
+import os
+
+
+SHOWNAMES_DICT = {
+    "lipsyncbattle": "Lip Sync Battle",
+    "archer2009": "Archer (2009)",
+    "thedailyshow": "The Daily Show",
+    "atmidnight": "@midnight"
+}
 
 
 def fix_episode(episode):
@@ -49,7 +59,19 @@ def tvregex(filename, shownames_dict):
 
 def main():
     # Set up arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "file",
+        help="Path to the file you want to rename"
+    )
     # Parse arguments
+    program_args = parser.parse_args()
+    filepath = program_args.file
+    if os.path.isfile(filepath):
+        new_file_name = tvregex(filepath, SHOWNAMES_DICT)
+        print(new_file_name)
+    else:
+        print("not a file")
     # Call tvregex
     pass
 

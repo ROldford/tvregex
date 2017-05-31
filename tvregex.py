@@ -67,12 +67,26 @@ def main():
     if os.path.isfile(filepath):
         folder = os.path.dirname(filepath)
         old_filename = os.path.basename(filepath)
-        new_filename = tvregex(old_filename, shownames_dict)
-        new_filepath = os.path.join(folder, new_filename)
-        os.rename(filepath, new_filepath)
+        try:
+            new_filename = tvregex(old_filename, shownames_dict)
+            new_filepath = os.path.join(folder, new_filename)
+            os.rename(filepath, new_filepath)
+        except KeyError as ke:
+            raw_showname = ke.args[0]
+            print("The filename was processed to give {}".format(raw_showname))
+            print("No show name match is known.")
+            print("Type the show name that matches this")
+            good_showname = input("(or just press Enter if there's no match):")
+            if good_showname != "":
+                shownames_dict[raw_showname] = good_showname
+                with open(SHOWNAMES_DICT_FILENAME, "w") as f:
+                    json.dump(shownames_dict, f, indent=4)
+                print("Thanks! Please run me again with this file!")
+                # Can I just run main() again?
+        except ValueError as ve:
+            print("Cannot read episode number or date for this file")
     else:
-        print("not a file")
-    pass
+        print("No file at file path")
 
 
 if __name__ == '__main__':

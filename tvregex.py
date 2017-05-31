@@ -1,14 +1,10 @@
 import re
 import argparse
 import os
+import json
 
 
-SHOWNAMES_DICT = {
-    "lipsyncbattle": "Lip Sync Battle",
-    "archer2009": "Archer (2009)",
-    "thedailyshow": "The Daily Show",
-    "atmidnight": "@midnight"
-}
+SHOWNAMES_DICT_FILENAME = "shownames.json"
 
 
 def fix_episode(episode):
@@ -58,6 +54,9 @@ def tvregex(filename, shownames_dict):
 
 
 def main():
+    shownames_dict = {}
+    with open(SHOWNAMES_DICT_FILENAME) as f:
+        shownames_dict = json.load(f)
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "file",
@@ -68,7 +67,7 @@ def main():
     if os.path.isfile(filepath):
         folder = os.path.dirname(filepath)
         old_filename = os.path.basename(filepath)
-        new_filename = tvregex(old_filename, SHOWNAMES_DICT)
+        new_filename = tvregex(old_filename, shownames_dict)
         new_filepath = os.path.join(folder, new_filename)
         os.rename(filepath, new_filepath)
     else:

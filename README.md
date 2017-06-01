@@ -20,6 +20,10 @@ If the program can't find a match, it will ask for the matching TV show name.
     - Program will run without any messages (except unknown exceptions).
         - (If set, this won't ask for matches)
 
+### History
+
+0.1.0 - Initial release
+
 ## Credits
 
 By Ryan Oldford (ryan.oldford@gmail.com)

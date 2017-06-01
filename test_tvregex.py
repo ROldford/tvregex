@@ -1,3 +1,5 @@
+"""Summary
+"""
 import unittest
 import tvregex as tvr
 
@@ -14,8 +16,11 @@ import tvregex as tvr
 
 
 class TestFixEpisode(unittest.TestCase):
-
+    """Summary
+    """
     def test_correctly_fixes_mixed_episodes(self):
+        """Summary
+        """
         raw_episodes = ["s03e19", "S08E08", "2017.03.13", "2017.02.14"]
         correct_episodes = [
             "[03x19]", "[08x08]",
@@ -28,14 +33,19 @@ class TestFixEpisode(unittest.TestCase):
             self.assertEqual(correct_episode, result)
 
     def test_returns_exception_on_bad_episode(self):
+        """Summary
+        """
         bad_episodes = ["S??E??", "????.??.??"]
         for bad_episode in bad_episodes:
             self.assertRaises(ValueError, tvr.fix_episode, bad_episode)
 
 
 class TestFixTitle(unittest.TestCase):
-
+    """Summary
+    """
     def test_correctly_fixes_title(self):
+        """Summary
+        """
         raw_shownames = [
             "lip.sync.battle",  # Lip Sync Battle
             "Archer.2009"  # Archer
@@ -55,6 +65,8 @@ class TestFixTitle(unittest.TestCase):
             self.assertEqual(correct_showname, result)
 
     def test_returns_exception_on_unknown_title(self):
+        """Summary
+        """
         bad_showname = "Better.Call.Saul"
         shownames_dict = {
             "lipsyncbattle": "Lip Sync Battle",
@@ -69,8 +81,14 @@ class TestFixTitle(unittest.TestCase):
 
 
 class TestIntegration(unittest.TestCase):
-
+    """Summary
+    
+    Attributes:
+        shownames_dict (TYPE): Description
+    """
     def setUp(self):
+        """Summary
+        """
         self.shownames_dict = {
             "lipsyncbattle": "Lip Sync Battle",
             "archer2009": "Archer (2009)",
@@ -79,6 +97,8 @@ class TestIntegration(unittest.TestCase):
         }
 
     def test_integration_seasonal(self):
+        """Summary
+        """
         raw_filenames = [
             "lip.sync.battle.s03e19.hdtv.x264-w4f.mkv",  # Lip Sync Battle
             "Archer.2009.S08E08.REPACK.HDTV.x264-SVA.mkv"  # Archer
@@ -94,6 +114,8 @@ class TestIntegration(unittest.TestCase):
             self.assertEqual(correct_filename, result)
 
     def test_integration_daily(self):
+        """Summary
+        """
         raw_filenames = [
             "The.Daily.Show.2017.03.13.Lee.Daniels." +
             "720p.CC.WEBRip.AAC2.0.x264-BTW.mkv",  # Daily Show

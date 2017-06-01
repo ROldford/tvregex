@@ -1,3 +1,8 @@
+"""Summary
+
+Attributes:
+    SHOWNAMES_DICT_FILENAME (str): Description
+"""
 import re
 import argparse
 import os
@@ -8,6 +13,17 @@ SHOWNAMES_DICT_FILENAME = "shownames.json"
 
 
 def fix_episode(episode):
+    """Summary
+    
+    Args:
+        episode (TYPE): Description
+    
+    Returns:
+        TYPE: Description
+    
+    Raises:
+        ValueError: Description
+    """
     return_value = episode
     pattern_string_seasonal = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
     pattern_seasonal = re.compile(pattern_string_seasonal, flags=re.IGNORECASE)
@@ -30,6 +46,15 @@ def fix_episode(episode):
 
 
 def fix_title(showname, shownames_dict):
+    """Summary
+    
+    Args:
+        showname (TYPE): Description
+        shownames_dict (TYPE): Description
+    
+    Returns:
+        TYPE: Description
+    """
     return_value = showname
     return_value = re.sub(r'\W+', '', return_value)
     return_value = return_value.lower()
@@ -38,6 +63,15 @@ def fix_title(showname, shownames_dict):
 
 
 def tvregex(filename, shownames_dict):
+    """Summary
+    
+    Args:
+        filename (TYPE): Description
+        shownames_dict (TYPE): Description
+    
+    Returns:
+        TYPE: Description
+    """
     return_value = filename
     pattern_string = (
         r"(.+)\." +
@@ -54,6 +88,8 @@ def tvregex(filename, shownames_dict):
 
 
 def main():
+    """Summary
+    """
     shownames_dict = {}
     with open(SHOWNAMES_DICT_FILENAME) as f:
         shownames_dict = json.load(f)

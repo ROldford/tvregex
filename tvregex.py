@@ -1,7 +1,14 @@
-"""Summary
+"""A simple TV show renamer, no TVDB required
+
+Version: 1.0
+
+Args:
+    file (str): Path to the file you want to rename
+    -s / --silent (bool): Program will run without any messages
+        (except unknown exceptions).
 
 Attributes:
-    SHOWNAMES_DICT_FILENAME (str): Description
+    SHOWNAMES_DICT_FILENAME (str): showname match dictionary JSON filepath
 """
 import re
 import argparse
@@ -13,16 +20,16 @@ SHOWNAMES_DICT_FILENAME = "shownames.json"
 
 
 def fix_episode(episode):
-    """Summary
-    
+    """Processes episode section of filename
+
     Args:
-        episode (TYPE): Description
-    
+        episode (str): Episode section of filename
+
     Returns:
-        TYPE: Description
-    
+        str: Processed episode (daily/seasonal as appropriate)
+
     Raises:
-        ValueError: Description
+        ValueError: on invalid episode string
     """
     return_value = episode
     pattern_string_seasonal = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
@@ -46,14 +53,14 @@ def fix_episode(episode):
 
 
 def fix_title(showname, shownames_dict):
-    """Summary
-    
+    """Processes showname section of filename
+
     Args:
-        showname (TYPE): Description
-        shownames_dict (TYPE): Description
-    
+        showname (str): Showname section of filename
+        shownames_dict (dict): Matches raw showname to real showname
+
     Returns:
-        TYPE: Description
+        str: Processed showname
     """
     return_value = showname
     return_value = re.sub(r'\W+', '', return_value)
@@ -63,14 +70,14 @@ def fix_title(showname, shownames_dict):
 
 
 def tvregex(filename, shownames_dict):
-    """Summary
-    
+    """Main program flow
+
     Args:
-        filename (TYPE): Description
-        shownames_dict (TYPE): Description
-    
+        filename (str): Path to the file you want to rename
+        shownames_dict (dict): Matches raw showname to real showname
+
     Returns:
-        TYPE: Description
+        str: Renamed filename
     """
     return_value = filename
     pattern_string = (
@@ -88,7 +95,9 @@ def tvregex(filename, shownames_dict):
 
 
 def main():
-    """Summary
+    """Takes in args
+    Passes to real main program flow in tvregex()
+    Outputs to file system
     """
     shownames_dict = {}
     with open(SHOWNAMES_DICT_FILENAME) as f:

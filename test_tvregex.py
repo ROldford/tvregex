@@ -1,4 +1,4 @@
-"""Summary
+"""Test suite for TVRegex
 """
 import unittest
 import tvregex as tvr
@@ -16,10 +16,10 @@ import tvregex as tvr
 
 
 class TestFixEpisode(unittest.TestCase):
-    """Summary
+    """Tests for fix_episode
     """
     def test_correctly_fixes_mixed_episodes(self):
-        """Summary
+        """Function should be able to rename both formats
         """
         raw_episodes = ["s03e19", "S08E08", "2017.03.13", "2017.02.14"]
         correct_episodes = [
@@ -33,19 +33,15 @@ class TestFixEpisode(unittest.TestCase):
             self.assertEqual(correct_episode, result)
 
     def test_returns_exception_on_bad_episode(self):
-        """Summary
-        """
         bad_episodes = ["S??E??", "????.??.??"]
         for bad_episode in bad_episodes:
             self.assertRaises(ValueError, tvr.fix_episode, bad_episode)
 
 
 class TestFixTitle(unittest.TestCase):
-    """Summary
+    """Tests for fix_title
     """
     def test_correctly_fixes_title(self):
-        """Summary
-        """
         raw_shownames = [
             "lip.sync.battle",  # Lip Sync Battle
             "Archer.2009"  # Archer
@@ -65,8 +61,6 @@ class TestFixTitle(unittest.TestCase):
             self.assertEqual(correct_showname, result)
 
     def test_returns_exception_on_unknown_title(self):
-        """Summary
-        """
         bad_showname = "Better.Call.Saul"
         shownames_dict = {
             "lipsyncbattle": "Lip Sync Battle",
@@ -81,14 +75,9 @@ class TestFixTitle(unittest.TestCase):
 
 
 class TestIntegration(unittest.TestCase):
-    """Summary
-    
-    Attributes:
-        shownames_dict (TYPE): Description
+    """Integration tests for tvregex()
     """
     def setUp(self):
-        """Summary
-        """
         self.shownames_dict = {
             "lipsyncbattle": "Lip Sync Battle",
             "archer2009": "Archer (2009)",
@@ -97,7 +86,8 @@ class TestIntegration(unittest.TestCase):
         }
 
     def test_integration_seasonal(self):
-        """Summary
+        """Seasonal = episodes are part of seasons
+        S01E01, s01e01, etc.
         """
         raw_filenames = [
             "lip.sync.battle.s03e19.hdtv.x264-w4f.mkv",  # Lip Sync Battle
@@ -114,7 +104,8 @@ class TestIntegration(unittest.TestCase):
             self.assertEqual(correct_filename, result)
 
     def test_integration_daily(self):
-        """Summary
+        """Daily = episodes are numbered by date
+        2017-01-01, etc.
         """
         raw_filenames = [
             "The.Daily.Show.2017.03.13.Lee.Daniels." +

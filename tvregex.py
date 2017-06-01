@@ -1,6 +1,6 @@
 """A simple TV show renamer, no TVDB required
 
-Version: 
+Version: 0.1-rc1
 
 Args:
     file (str): Path to the file you want to rename

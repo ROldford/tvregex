@@ -9,7 +9,7 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 
-# Get the long description from the README file
+# Get the long description from the readme file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
@@ -31,7 +31,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-    ]
+    ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=[],
     python_requires='>=3',

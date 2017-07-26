@@ -4,6 +4,7 @@ __pycache__
 # Distribution
 *.egg-info
 dist/
+build/
 
 # SublimeText
 *.sublime-*

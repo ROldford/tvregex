@@ -35,7 +35,7 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=[],
     python_requires='>=3',
-    package_data={'tvregex: shownames.json'},
+    package_data={'tvregex': ['shownames.json']},
     entry_points={
         'console_scripts': [
             'tvregex=tvregex:main'

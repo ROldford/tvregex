@@ -1,7 +1,7 @@
 """Test suite for TVRegex
 """
 import unittest
-import tvregex as tvr
+from tvregex import tvregex as tvr
 
 
 # Program will take command line arguments:

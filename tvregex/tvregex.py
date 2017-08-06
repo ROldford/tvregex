@@ -1,14 +1,12 @@
 """A simple TV show renamer, no TVDB required
 
-Version: 
-
 Args:
     file (str): Path to the file you want to rename
     -s / --silent (bool): Program will run without any messages
         (except unknown exceptions).
 
 Attributes:
-    SHOWNAMES_DICT_FILENAME (str): showname match dictionary JSON filepath
+    SHOWNAMES_DICT_FILEPATH (str): showname match dictionary JSON filepath
 """
 import re
 import argparse
@@ -17,7 +15,9 @@ import json
 
 
 SHOWNAMES_DICT_FILENAME = "shownames.json"
-
+SHOWNAMES_DICT_FILEPATH = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), SHOWNAMES_DICT_FILENAME
+)
 
 def fix_episode(episode):
     """Processes episode section of filename
@@ -100,7 +100,7 @@ def main():
     Outputs to file system
     """
     shownames_dict = {}
-    with open(SHOWNAMES_DICT_FILENAME) as f:
+    with open(SHOWNAMES_DICT_FILEPATH) as f:
         shownames_dict = json.load(f)
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -139,7 +139,7 @@ def main():
                 )
                 if good_showname != "":
                     shownames_dict[raw_showname] = good_showname
-                    with open(SHOWNAMES_DICT_FILENAME, "w") as f:
+                    with open(SHOWNAMES_DICT_FILEPATH, "w") as f:
                         json.dump(shownames_dict, f, indent=4)
                     print("Thanks! Please run me again with this file!")
                     # Can I just run main() again?

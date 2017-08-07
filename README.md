@@ -8,7 +8,7 @@ Just run as is!
 ## Usage
 
 <script>
-    python3 tvregex.py [-s / --silent] [file]
+    tvregex [-s / --silent] [file]
 </script>
 
 If the program can't find a match, it will ask for the matching TV show name.
@@ -22,7 +22,8 @@ If the program can't find a match, it will ask for the matching TV show name.
 
 ### History
 
-0.1.0 - Initial release
+0.1.0 - Initial release (REMOVED)
+0.1.1 - Critical bugfix
 
 ## Credits
 

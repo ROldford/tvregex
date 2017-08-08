@@ -1,7 +1,7 @@
 """Test suite for TVRegex
 """
 import unittest
-import tvregex as tvr
+from tvregex import tvregex
 
 
 # Program will take command line arguments:
@@ -29,13 +29,13 @@ class TestFixEpisode(unittest.TestCase):
         for i in range(len(raw_episodes)):
             raw_episode = raw_episodes[i]
             correct_episode = correct_episodes[i]
-            result = tvr.fix_episode(raw_episode)
+            result = tvregex.fix_episode(raw_episode)
             self.assertEqual(correct_episode, result)
 
     def test_returns_exception_on_bad_episode(self):
         bad_episodes = ["S??E??", "????.??.??"]
         for bad_episode in bad_episodes:
-            self.assertRaises(ValueError, tvr.fix_episode, bad_episode)
+            self.assertRaises(ValueError, tvregex.fix_episode, bad_episode)
 
 
 class TestFixTitle(unittest.TestCase):
@@ -57,7 +57,7 @@ class TestFixTitle(unittest.TestCase):
         for i in range(len(raw_shownames)):
             raw_showname = raw_shownames[i]
             correct_showname = correct_shownames[i]
-            result = tvr.fix_title(raw_showname, shownames_dict)
+            result = tvregex.fix_title(raw_showname, shownames_dict)
             self.assertEqual(correct_showname, result)
 
     def test_returns_exception_on_unknown_title(self):
@@ -68,7 +68,7 @@ class TestFixTitle(unittest.TestCase):
         }
         self.assertRaises(
             KeyError,
-            tvr.fix_title,
+            tvregex.fix_title,
             bad_showname,
             shownames_dict
         )
@@ -100,7 +100,7 @@ class TestIntegration(unittest.TestCase):
         for i in range(len(raw_filenames)):
             raw_filename = raw_filenames[i]
             correct_filename = correct_filenames[i]
-            result = tvr.tvregex(raw_filename, self.shownames_dict)
+            result = tvregex.tvregex(raw_filename, self.shownames_dict)
             self.assertEqual(correct_filename, result)
 
     def test_integration_daily(self):
@@ -119,7 +119,7 @@ class TestIntegration(unittest.TestCase):
         for i in range(len(raw_filenames)):
             raw_filename = raw_filenames[i]
             correct_filename = correct_filenames[i]
-            result = tvr.tvregex(raw_filename, self.shownames_dict)
+            result = tvregex.tvregex(raw_filename, self.shownames_dict)
             self.assertEqual(correct_filename, result)
 
 

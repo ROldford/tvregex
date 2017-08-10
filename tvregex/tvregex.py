@@ -94,6 +94,41 @@ def tvregex(filename, shownames_dict):
     return return_value
 
 
+
+def attempt_rename(folder, old_filename, shownames_dict, silent):
+    try:
+        new_filename = tvregex(old_filename, shownames_dict)
+        new_filepath = os.path.join(folder, new_filename)
+        old_filepath = os.path.join(folder, old_filename)
+        os.rename(old_filepath, new_filepath)
+    except KeyError as ke:
+        if not silent:
+            raw_showname = ke.args[0]
+            print(
+                "The filename was processed to give {}".format(
+                    raw_showname
+                )
+            )
+            print("No show name match is known.")
+            print("Type the show name that matches this")
+            good_showname = input(
+                "(or just press Enter if there's no match):"
+            )
+            if good_showname != "":
+
+                shownames_dict[raw_showname] = good_showname
+                with open(SHOWNAMES_DICT_FILEPATH, "w") as f:
+                    json.dump(shownames_dict, f, indent=4)
+                print("Thanks! Please run me again with this file!")
+                # Can I just run main() again?
+    except ValueError as ve:
+        if not silent:
+            print("Cannot read episode number or date for this file")
+    except AttributeError as ae:
+        if not silent:
+            print("Cannot read file name as TV show")
+
+
 def main():
     """Takes in args
     Passes to real main program flow in tvregex()
@@ -105,7 +140,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "file",
-        help="Path to the file you want to rename"
+        help="Path to the file you want to rename",
+        nargs="+"
     )
     parser.add_argument(
         "-s", "--silent",
@@ -116,42 +152,27 @@ def main():
     )
     program_args = parser.parse_args()
     silent = program_args.silent
-    filepath = program_args.file
-    if os.path.isfile(filepath):
-        folder = os.path.dirname(filepath)
-        old_filename = os.path.basename(filepath)
-        try:
-            new_filename = tvregex(old_filename, shownames_dict)
-            new_filepath = os.path.join(folder, new_filename)
-            os.rename(filepath, new_filepath)
-        except KeyError as ke:
-            if not silent:
-                raw_showname = ke.args[0]
-                print(
-                    "The filename was processed to give {}".format(
-                        raw_showname
-                    )
+    all_filepaths = program_args.file
+    for filepath in all_filepaths:
+        if os.path.isfile(filepath):
+            folder = os.path.dirname(filepath)
+            old_filename = os.path.basename(filepath)
+            attempt_rename(
+                folder, old_filename, shownames_dict, silent
+            )
+        elif os.path.isdir(filepath):
+            # Get names of all files in folder, store to list
+            files_list = [
+                f for f in os.listdir(filepath) if os.path.isfile(
+                    os.path.join(filepath, f)
                 )
-                print("No show name match is known.")
-                print("Type the show name that matches this")
-                good_showname = input(
-                    "(or just press Enter if there's no match):"
-                )
-                if good_showname != "":
-                    shownames_dict[raw_showname] = good_showname
-                    with open(SHOWNAMES_DICT_FILEPATH, "w") as f:
-                        json.dump(shownames_dict, f, indent=4)
-                    print("Thanks! Please run me again with this file!")
-                    # Can I just run main() again?
-        except ValueError as ve:
+            ]
+            # Iterate over list, run rename attempt on each
+            for file in files_list:
+                attempt_rename(filepath, file, shownames_dict, silent)
+        else:
             if not silent:
-                print("Cannot read episode number or date for this file")
-        except AttributeError as ae:
-            if not silent:
-                print("Cannot read file name as TV show")
-    else:
-        if not silent:
-            print("No file at file path")
+                print("Nothing at file path")
 
 
 if __name__ == '__main__':

@@ -32,6 +32,15 @@ def fix_episode(episode):
         ValueError: on invalid episode string
     """
     return_value = episode
+    # Scan for numbering system (SxxExx, xxxx, or daily)
+    # If seasonal, scan as follows:
+        # Prefix (optional, bracketed, no capture)
+        # Name (may use dots)
+        # Season and episode number (SxxExx or xxxx)
+        # Suffix (do not capture)
+        # File extension
+    # If daily, scan as before but...
+        # Date of show (yyyy.mm.dd, may replace . by other punctuation)
     pattern_string_seasonal = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
     pattern_seasonal = re.compile(pattern_string_seasonal, flags=re.IGNORECASE)
     match_seasonal = pattern_seasonal.search(return_value)

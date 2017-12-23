@@ -64,16 +64,24 @@ class TestFixTitle(unittest.TestCase):
     """
     def test_correctly_fixes_title(self):
         raw_shownames = [
-            "lip.sync.battle",  # Lip Sync Battle
-            "Archer.2009"  # Archer
+            "lip.sync.battle", # Dots, lowercase
+            "[pseudo] rick and morty", # Spaces, lowercase
+            "Rick.and.Morty", # Dots, uppercase
+            "[snahp.it]rick.and.morty.", # Prefix, dots, lowercase
+            ".lip.sync.battle.", # Dots, lowercase, extra padding characters
+            " lip sync battle " # Dots, lowercase, extra padding characters
         ]
         shownames_dict = {
             "lipsyncbattle": "Lip Sync Battle",
-            "archer2009": "Archer (2009)"
+            "rickandmorty": "Rick and Morty"
         }
         correct_shownames = [
-            "Lip Sync Battle",  # Lip Sync Battle
-            "Archer (2009)"  # Archer
+            "Lip Sync Battle",
+            "Rick and Morty",
+            "Rick and Morty",
+            "Rick and Morty",
+            "Lip Sync Battle",
+            "Lip Sync Battle"
         ]
         for i in range(len(raw_shownames)):
             raw_showname = raw_shownames[i]

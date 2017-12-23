@@ -93,8 +93,19 @@ def fix_title(filename_start, shownames_dict):
         str: Processed showname
     """
     return_value = filename_start
+    # Check for prefix, remove if present
+    pattern_string_prefix = r"^(?:[\[({].+?[\])}])*(.+)$"
+    pattern_prefix = re.compile(
+        pattern_string_prefix, 
+        flags=re.IGNORECASE
+    )
+    match_prefix = pattern_prefix.search(return_value)
+    return_value = match_prefix.group(1)
+    # Remove all punctuation and whitespace
     return_value = re.sub(r'\W+', '', return_value)
+    # Convert to lowercase
     return_value = return_value.lower()
+    # Lookup correct showname
     return_value = shownames_dict[return_value]
     return return_value
 
@@ -182,8 +193,17 @@ def tvregex(filename, shownames_dict):
         extension = fix_extension(end)
         return_value = "{} - {}.{}".format(showname, episode, extension)
     elif raw_showname_style == SHOWNAME_STYLE_DAILY :
-        pass
-        # something
+        pattern = re.compile(
+            PATTERN_STRINGS['full_filenames']['daily'],
+            flags=re.IGNORECASE)
+        match = pattern.search(filename)
+        start, year, month, day, end = match.groups()
+        showname = fix_title(start, shownames_dict)
+        month =  month.zfill(2)
+        day = day.zfill(2)
+        episode = "[{}-{}-{}]".format(year, month, day)
+        extension = fix_extension(end)
+        return_value = "{} - {}.{}".format(showname, episode, extension)
     elif raw_showname_style == SHOWNAME_STYLE_XXXX :
         pattern = re.compile(
             PATTERN_STRINGS['full_filenames']['seasonal_4_digit'],

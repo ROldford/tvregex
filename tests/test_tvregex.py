@@ -92,7 +92,7 @@ class TestFindRawShownameStyle(unittest.TestCase):
             "0301.720p.hdtv.x265-Snahp.mkv", # xxxx dots prefix
             "the.daily.show.2017.12.13." + 
             "satya.nadella.extended.web.x264-tbs.mkv", # daily
-            "the.daily.show.2017-12_13" + 
+            "the.daily.show.2017-12-13" + 
             ".satya.nadella.extended.web.x264-tbs.mkv" # daily alt punctuation
         ]
         correct_styles = [

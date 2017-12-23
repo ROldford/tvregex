@@ -18,6 +18,10 @@ SHOWNAMES_DICT_FILENAME = "shownames.json"
 SHOWNAMES_DICT_FILEPATH = os.path.join(
     os.path.dirname(os.path.realpath(__file__)), SHOWNAMES_DICT_FILENAME
 )
+# Enums
+SHOWNAME_STYLE_SXXEXX = "showname_style_SxxExx"
+SHOWNAME_STYLE_XXXX = "showname_style_xxxx"
+SHOWNAME_STYLE_DAILY = "showname_style_daily"
 
 def fix_episode(episode):
     """Processes episode section of filename
@@ -41,16 +45,26 @@ def fix_episode(episode):
         # File extension
     # If daily, scan as before but...
         # Date of show (yyyy.mm.dd, may replace . by other punctuation)
-    pattern_string_seasonal = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
-    pattern_seasonal = re.compile(pattern_string_seasonal, flags=re.IGNORECASE)
-    match_seasonal = pattern_seasonal.search(return_value)
+    pattern_string_seasonal_SE_style = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
+    pattern_seasonal_SE_style = re.compile(pattern_string_seasonal_SE_style,
+        flags=re.IGNORECASE)
+    match_seasonal_SE_style = pattern_seasonal_SE_style.search(return_value)
+    # pattern_string_seasonal_4_digit_style = r""
+    # pattern_seasonal_4_digit_style = re.compile(
+    #     pattern_string_seasonal_4_digit_style, flags=re.IGNORECASE)
+    # match_seasonal_4_digit_style = pattern_seasonal_4_digit_style.search(
+    #     return_value)
     pattern_string_daily = r".*?(\d{4}).+?(\d{2}).+?(\d{2}).*?$"
     pattern_daily = re.compile(pattern_string_daily)
     match_daily = pattern_daily.search(return_value)
-    if match_seasonal:
-        season_num, episode_num = match_seasonal.groups()
+    if match_seasonal_SE_style: # || match_seasonal_4_digit_style:
+        season_num, episode_num = match_seasonal_SE_style.groups()
         season_num = season_num.zfill(2)
         return_value = "[{}x{}]".format(season_num, episode_num)
+    # elif match_seasonal_4_digit_style:
+        # season_num, episode_num = match_seasonal_SE_style.groups()
+        # season_num = season_num.zfill(2)
+        # return_value = "[{}x{}]".format(season_num, episode_num)
     elif match_daily:
         year, month, day = match_daily.groups()
         month = month.zfill(2)
@@ -78,6 +92,44 @@ def fix_title(showname, shownames_dict):
     return return_value
 
 
+def find_raw_showname_style(filename):
+    """something
+
+    Args:
+        filename (str): filename of show file
+
+    Returns:
+        str: style of showname (see enums above)
+    """
+    return_value = filename
+    # create pattern strings
+    pattern_string_style_seasonal_SE = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
+    pattern_string_style_seasonal_4_digit = r".+?(\d{1,2})(\d{2}).+"
+    # pattern_string_style_daily = r".*?(\d{4}).+?(\d{2}).+?(\d{2}).*?$"
+    pattern_string_style_daily = r".+?\W(\d{4})\W(\d{2})\W(\d{2})\W.+"
+    # compile patterns
+    pattern_style_seasonal_SE = re.compile(pattern_string_style_seasonal_SE,
+        flags=re.IGNORECASE)
+    pattern_style_seasonal_4_digit = re.compile(
+        pattern_string_style_seasonal_4_digit, flags=re.IGNORECASE)
+    pattern_style_daily = re.compile(pattern_string_style_daily)
+    # find match
+    match_style_seasonal_SE = pattern_style_seasonal_SE.search(return_value)
+    match_style_seasonal_4_digit = pattern_style_seasonal_4_digit.search(
+        return_value)
+    match_style_daily = pattern_style_daily.search(return_value)
+    # check matches and return style enum
+    if match_style_seasonal_SE :
+        return_value = SHOWNAME_STYLE_SXXEXX
+    elif match_style_daily :
+        return_value = SHOWNAME_STYLE_DAILY
+    elif match_style_seasonal_4_digit :
+        return_value = SHOWNAME_STYLE_XXXX
+    else :
+        raise ValueError
+    return return_value
+
+
 def tvregex(filename, shownames_dict):
     """Main program flow
 
@@ -100,6 +152,18 @@ def tvregex(filename, shownames_dict):
     showname = fix_title(showname, shownames_dict)
     episode = fix_episode(episode)
     return_value = "{} - {}.{}".format(showname, episode, extension)
+    # raw_showname_style = find_raw_showname_style(filename)
+    # if raw_showname_style ==  SHOWNAME_STYLE_SXXEXX :
+    #     pass
+    #     # something
+    # elif raw_showname_style == SHOWNAME_STYLE_XXXX :
+    #     pass
+    #     # something
+    # elif raw_showname_style == SHOWNAME_STYLE_DAILY :
+    #     pass
+    #     # something
+    # else :
+    #     raise ValueError
     return return_value
 
 

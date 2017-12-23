@@ -106,11 +106,45 @@ class TestFixTitle(unittest.TestCase):
 class TestFixExtension(unittest.TestCase):
     """Tests for fix_extension
     """
-    def test_correctly_gets_extension:
-        pass
+    def test_correctly_gets_extension(self):
+        raw_name_ends = [
+            "- Pilot [1080p] [h.265].mkv",
+            ".720p.hdtv.x265-Snahp.mkv", 
+            " - Pilot [1080p] [h.265].avi", 
+            ".720p.hdtv.x265-Snahp.avi", 
+            " - Pilot [1080p] [h.265].mov", 
+            ".720p.hdtv.x265-Snahp.mov", 
+            " - Pilot [1080p] [h.265].mp4", 
+            ".720p.hdtv.x265-Snahp.mp4"
+        ]
+        correct_extensions = [
+            "mkv", 
+            "mkv", 
+            "avi", 
+            "avi", 
+            "mov", 
+            "mov", 
+            "mp4", 
+            "mp4"
+        ]
+        for i in range(len(raw_name_ends)):
+            raw_name_end = raw_name_ends[i]
+            correct_extension = correct_extensions[i]
+            result = tvregex.fix_extension(raw_name_end)
+            self.assertEqual(correct_extension, result)
 
-    def test_raisess_exception_on_bad_extension:
-        pass
+    def test_raisess_exception_on_bad_extension(self):
+        bad_ends = [
+            " - Pilot [1080p] [h.265].???", 
+            " - Pilot [1080p] [h.265].", 
+            " - Pilot [1080p] [h.265]"
+        ]
+        for i in range(len(bad_ends)):
+            self.assertRaises(
+                ValueError,
+                tvregex.fix_extension,
+                bad_ends[i]
+            )
 
 class TestFindRawShownameStyle(unittest.TestCase):
     """Tests for find_raw_showname_style

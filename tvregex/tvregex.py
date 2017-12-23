@@ -119,6 +119,15 @@ def fix_extension(filename_end):
     Returns:
         str: file extension
     """
+    return_value = filename_end
+    pattern_string = r".*\.(\w{3})"
+    pattern = re.compile(
+        pattern_string,
+        flags=re.IGNORECASE
+    )
+    match = pattern.search(return_value)
+    return_value = match.group(1)
+    return return_value
 
 
 def find_raw_showname_style(filename):

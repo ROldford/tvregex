@@ -188,8 +188,8 @@ def tvregex(filename, shownames_dict):
         match = pattern.search(filename)
         start, season_number, episode_number, end = match.groups()
         showname = fix_title(start, shownames_dict)
-        season_number = season_number.zfill(2)
-        episode = "[{}x{}]".format(season_number, episode_number)
+        episode_data = (season_number, episode_number)
+        episode = fix_episode(episode_data, raw_showname_style)
         extension = fix_extension(end)
         return_value = "{} - {}.{}".format(showname, episode, extension)
     elif raw_showname_style == SHOWNAME_STYLE_DAILY :
@@ -199,9 +199,8 @@ def tvregex(filename, shownames_dict):
         match = pattern.search(filename)
         start, year, month, day, end = match.groups()
         showname = fix_title(start, shownames_dict)
-        month =  month.zfill(2)
-        day = day.zfill(2)
-        episode = "[{}-{}-{}]".format(year, month, day)
+        episode_data = (year, month, day)
+        episode = fix_episode(episode_data, raw_showname_style)
         extension = fix_extension(end)
         return_value = "{} - {}.{}".format(showname, episode, extension)
     elif raw_showname_style == SHOWNAME_STYLE_XXXX :
@@ -211,8 +210,8 @@ def tvregex(filename, shownames_dict):
         match = pattern.search(filename)
         start, season_number, episode_number, end = match.groups()
         showname = fix_title(start, shownames_dict)
-        season_number = season_number.zfill(2)
-        episode = "[{}x{}]".format(season_number, episode_number)
+        episode_data = (season_number, episode_number)
+        episode = fix_episode(episode_data, raw_showname_style)
         extension = fix_extension(end)
         return_value = "{} - {}.{}".format(showname, episode, extension)
     else :

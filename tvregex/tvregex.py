@@ -120,12 +120,14 @@ def fix_extension(filename_end):
         str: file extension
     """
     return_value = filename_end
-    pattern_string = r".*\.(\w{3})"
+    pattern_string = r".*\.(\w{3})$"
     pattern = re.compile(
         pattern_string,
         flags=re.IGNORECASE
     )
     match = pattern.search(return_value)
+    if match == None:
+        raise ValueError
     return_value = match.group(1)
     return return_value
 

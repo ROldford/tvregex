@@ -9,3 +9,6 @@ build/
 # SublimeText
 *.sublime-*
 *.sublime-workspace
+
+# Mac
+.DS_Store

@@ -75,6 +75,49 @@ class TestFixTitle(unittest.TestCase):
         )
 
 
+class TestFindRawShownameStyle(unittest.TestCase):
+    """Tests for find_raw_showname_style
+    """
+    def test_correctly_gets_style(self):
+        raw_shownames = [
+            "lip.sync.battle.s03e19.hdtv.x264-w4f.mkv", # SxxExx
+            "Archer.2009.S08E08.REPACK.HDTV.x264-SVA.mkv", # SxxExx year in title
+            "[pseudo] Rick and Morty S02E10" + 
+            " The Wedding Squanchers [1080p] [h.265].mkv", # SxxExx no dots prefix
+            "[snahp.it]rick.and.morty.s03e01.720p.hdtv.x265-Snahp.mkv", # SxxExx dots prefix
+            "lip.sync.battle.0319.hdtv.x264-w4f.mkv", # xxxx
+            "[pseudo] Rick and Morty 0210" + 
+            " The Wedding Squanchers [1080p] [h.265].mkv", # xxxx no dots prefix
+            "[snahp.it]rick.and.morty." + 
+            "0301.720p.hdtv.x265-Snahp.mkv", # xxxx dots prefix
+            "the.daily.show.2017.12.13." + 
+            "satya.nadella.extended.web.x264-tbs.mkv", # daily
+            "the.daily.show.2017-12_13" + 
+            ".satya.nadella.extended.web.x264-tbs.mkv" # daily alt punctuation
+        ]
+        correct_styles = [
+            tvregex.SHOWNAME_STYLE_SXXEXX, 
+            tvregex.SHOWNAME_STYLE_SXXEXX, 
+            tvregex.SHOWNAME_STYLE_SXXEXX, 
+            tvregex.SHOWNAME_STYLE_SXXEXX, 
+            tvregex.SHOWNAME_STYLE_XXXX, 
+            tvregex.SHOWNAME_STYLE_XXXX, 
+            tvregex.SHOWNAME_STYLE_XXXX, 
+            tvregex.SHOWNAME_STYLE_DAILY,
+            tvregex.SHOWNAME_STYLE_DAILY 
+        ]
+        for i in range(len(raw_shownames)):
+            raw_showname = raw_shownames[i]
+            correct_style = correct_styles[i]
+            result = tvregex.find_raw_showname_style(raw_showname)
+            self.assertEqual(correct_style, result)
+
+    def test_returns_exception_on_unfindable_style(self):
+        pass
+        # setup bad showname
+        # assertRaises
+
+
 class TestIntegration(unittest.TestCase):
     """Integration tests for tvregex()
     """

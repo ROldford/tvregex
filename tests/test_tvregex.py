@@ -22,21 +22,41 @@ class TestFixEpisode(unittest.TestCase):
     def test_correctly_fixes_mixed_episodes(self):
         """Function should be able to rename both formats
         """
-        raw_episodes = ["s03e19", "S08E08", "2017.03.13", "2017.02.14"]
+        raw_data = [
+            [("03","19"), tvregex.SHOWNAME_STYLE_SXXEXX], 
+            [("08","08"), tvregex.SHOWNAME_STYLE_SXXEXX], 
+            [("03","19"), tvregex.SHOWNAME_STYLE_XXXX], 
+            [("08","08"), tvregex.SHOWNAME_STYLE_XXXX], 
+            [("2017", "03", "13"), tvregex.SHOWNAME_STYLE_DAILY], 
+            [("2017", "02", "14"), tvregex.SHOWNAME_STYLE_DAILY]
+        ]
         correct_episodes = [
-            "[03x19]", "[08x08]",
+            "[03x19]", "[08x08]", 
+            "[03x19]", "[08x08]", 
             "[2017-03-13]", "[2017-02-14]"
         ]
-        for i in range(len(raw_episodes)):
-            raw_episode = raw_episodes[i]
+        for i in range(len(raw_data)):
+            this_data = raw_data[i]
+            episode = this_data[0]
+            style_enum = this_data[1]
             correct_episode = correct_episodes[i]
-            result = tvregex.fix_episode(raw_episode)
+            result = tvregex.fix_episode(episode, style_enum)
             self.assertEqual(correct_episode, result)
 
     def test_returns_exception_on_bad_episode(self):
-        bad_episodes = ["S??E??", "????.??.??"]
+        bad_episodes = [
+            [("??","??"), tvregex.SHOWNAME_STYLE_SXXEXX], 
+            [("??","??"), tvregex.SHOWNAME_STYLE_XXXX], 
+            [("????", "??", "??"), tvregex.SHOWNAME_STYLE_DAILY], 
+            [("03","19"), "not a valid enum"], 
+        ]
         for bad_episode in bad_episodes:
-            self.assertRaises(ValueError, tvregex.fix_episode, bad_episode)
+            self.assertRaises(
+                ValueError, 
+                tvregex.fix_episode, 
+                bad_episode[0], 
+                bad_episode[1]
+            )
 
 
 class TestFixTitle(unittest.TestCase):

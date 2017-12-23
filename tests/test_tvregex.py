@@ -43,7 +43,7 @@ class TestFixEpisode(unittest.TestCase):
             result = tvregex.fix_episode(episode, style_enum)
             self.assertEqual(correct_episode, result)
 
-    def test_returns_exception_on_bad_episode(self):
+    def test_raises_exception_on_bad_episode(self):
         bad_episodes = [
             [("??","??"), tvregex.SHOWNAME_STYLE_SXXEXX], 
             [("??","??"), tvregex.SHOWNAME_STYLE_XXXX], 
@@ -89,7 +89,7 @@ class TestFixTitle(unittest.TestCase):
             result = tvregex.fix_title(raw_showname, shownames_dict)
             self.assertEqual(correct_showname, result)
 
-    def test_returns_exception_on_unknown_title(self):
+    def test_raises_exception_on_unknown_title(self):
         bad_showname = "Better.Call.Saul"
         shownames_dict = {
             "lipsyncbattle": "Lip Sync Battle",
@@ -102,6 +102,15 @@ class TestFixTitle(unittest.TestCase):
             shownames_dict
         )
 
+
+class TestFixExtension(unittest.TestCase):
+    """Tests for fix_extension
+    """
+    def test_correctly_gets_extension:
+        pass
+
+    def test_raisess_exception_on_bad_extension:
+        pass
 
 class TestFindRawShownameStyle(unittest.TestCase):
     """Tests for find_raw_showname_style
@@ -140,7 +149,7 @@ class TestFindRawShownameStyle(unittest.TestCase):
             result = tvregex.find_raw_showname_style(raw_showname)
             self.assertEqual(correct_style, result)
 
-    def test_returns_exception_on_unfindable_style(self):
+    def test_raises_exception_on_unfindable_style(self):
         pass
         # setup bad showname
         bad_showname = "lip.sync.battle.abcde.12345.hdtv.mkv"

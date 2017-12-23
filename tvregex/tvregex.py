@@ -22,6 +22,7 @@ SHOWNAMES_DICT_FILEPATH = os.path.join(
 SHOWNAME_STYLE_SXXEXX = "showname_style_SxxExx"
 SHOWNAME_STYLE_XXXX = "showname_style_xxxx"
 SHOWNAME_STYLE_DAILY = "showname_style_daily"
+# TODO: Pattern string dictionary
 
 def fix_episode(episode):
     """Processes episode section of filename
@@ -104,7 +105,7 @@ def find_raw_showname_style(filename):
     return_value = filename
     # create pattern strings
     pattern_string_style_seasonal_SE = r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})"
-    pattern_string_style_seasonal_4_digit = r".+?(\d{1,2})(\d{2}).+"
+    pattern_string_style_seasonal_4_digit = r".+?\D(\d{1,2})(\d{2})\D.+"
     # pattern_string_style_daily = r".*?(\d{4}).+?(\d{2}).+?(\d{2}).*?$"
     pattern_string_style_daily = r".+?\W(\d{4})\W(\d{2})\W(\d{2})\W.+"
     # compile patterns

@@ -115,7 +115,13 @@ class TestFindRawShownameStyle(unittest.TestCase):
     def test_returns_exception_on_unfindable_style(self):
         pass
         # setup bad showname
+        bad_showname = "lip.sync.battle.abcde.12345.hdtv.mkv"
         # assertRaises
+        self.assertRaises(
+            ValueError,
+            tvregex.find_raw_showname_style,
+            bad_showname
+        )
 
 
 class TestIntegration(unittest.TestCase):

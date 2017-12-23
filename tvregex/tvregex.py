@@ -23,7 +23,7 @@ SHOWNAME_STYLE_SXXEXX = "showname_style_SxxExx"
 SHOWNAME_STYLE_XXXX = "showname_style_xxxx"
 SHOWNAME_STYLE_DAILY = "showname_style_daily"
 # TODO: Pattern string dictionary
-pattern_strings = {
+PATTERN_STRINGS = {
     'styles': {
         'seasonal_SE': r"(?:s|\[)(\d{1,2})(?:e|x)(\d{1,2})",
         'seasonal_4_digit': r".+?\D(\d{1,2})(\d{2})\D.+",
@@ -116,11 +116,11 @@ def find_raw_showname_style(filename):
     # pattern_string_style_daily = r".*?(\d{4}).+?(\d{2}).+?(\d{2}).*?$"
     pattern_string_style_daily = r".+?\W(\d{4})\W(\d{2})\W(\d{2})\W.+"
     # compile patterns
-    pattern_style_seasonal_SE = re.compile(pattern_strings['styles']['seasonal_SE'],
+    pattern_style_seasonal_SE = re.compile(PATTERN_STRINGS['styles']['seasonal_SE'],
         flags=re.IGNORECASE)
     pattern_style_seasonal_4_digit = re.compile(
-        pattern_strings['styles']['seasonal_4_digit'], flags=re.IGNORECASE)
-    pattern_style_daily = re.compile(pattern_strings['styles']['daily'])
+        PATTERN_STRINGS['styles']['seasonal_4_digit'], flags=re.IGNORECASE)
+    pattern_style_daily = re.compile(PATTERN_STRINGS['styles']['daily'])
     # find match
     match_style_seasonal_SE = pattern_style_seasonal_SE.search(return_value)
     match_style_seasonal_4_digit = pattern_style_seasonal_4_digit.search(

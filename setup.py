@@ -15,7 +15,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='TVRegex',
-    version=,
+    version="0.2.0",
     description='Regex-only TV show renamer. No TVDB required!',
     long_description=long_description,
     author='Ryan Oldford',
